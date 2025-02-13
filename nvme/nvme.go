@@ -1,7 +1,6 @@
 package nvme
 
 import (
-	"encoding/json"
 	"github.com/samburba/go-system-profiler/v2/internal/common"
 )
 
@@ -29,34 +28,4 @@ type DataTypeItem struct {
 	} `json:"volumes"`
 }
 
-type DataType struct {
-  Item []DataTypeItem `json:"_items"`
-  Name string `json:"_name"`
-}
-
-type NVMeData struct{
-  SPNVMeDataType []DataType `json:"SPNVMeDataType"`
-} 
-
-var nvmeData NVMeData 
-
-func New() *NVMeData {
-  if len(nvmeData.SPNVMeDataType) == 0 {
-    nvmeData = executeSPCommand()
-  }
-
-    return &nvmeData
-}
-
-func executeSPCommand() NVMeData {
-	output, err := common.ExecuteSPCommand(ThisDataType)
-	if err != nil {
-		panic(err)
-	}
-  var data NVMeData
-	err = json.Unmarshal(output, &data)
-	if err != nil {
-		panic(err)
-	}
-	return data
-}
+var NVMeData *common.Data = common.NewData(ThisDataType)
