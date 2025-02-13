@@ -28,4 +28,4 @@ type DataTypeItem struct {
 	} `json:"volumes"`
 }
 
-var NVMeData *common.Data = common.NewData(ThisDataType)
+var Data *common.Data = common.NewData(ThisDataType)
