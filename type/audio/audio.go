@@ -1,10 +1,9 @@
 package audio
 
 import (
+	"fmt"
 	"github.com/samburba/go-system-profiler/v2/internal/common"
 )
-
-const ThisDataType = "SPAudioDataType"
 
 type DataTypeItem struct {
 	Name                              string `json:"_name"`
@@ -21,4 +20,17 @@ type DataTypeItem struct {
 	CoreaudioOutputSource             string `json:"coreaudio_output_source,omitempty"`
 }
 
-var Data *common.Data = common.NewData(ThisDataType)
+// You should handle the returned tuple from `NewData` properly
+var DataType *common.DataType[DataTypeItem]
+
+func init() {
+	// Ensure you handle the returned error correctly.
+	data, err := common.NewData[DataTypeItem](common.SPAudioDataType)
+	if err != nil {
+		// Handle error appropriately, for example, log or panic.
+		fmt.Println("Error initializing data:", err)
+		return
+	}
+	DataType = data
+}
+

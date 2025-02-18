@@ -6,37 +6,50 @@ import (
 	"os/exec"
 )
 
-type Data struct {
-	DataType map[string]any `json:"-"`
+type DataType[T any] struct {
+	Item []T   `json:"_items"`
+	Name string `json:"_name"`
 }
 
-func (d *Data) String() string {
-	jsonData, err := json.MarshalIndent(d.DataType, "", "  ")
+func (d *DataType[T]) String() string {
+	jsonData, err := json.MarshalIndent(d, "", "  ")
 	if err != nil {
 		return "Error converting Data to JSON string"
 	}
 	return string(jsonData)
 }
 
-func NewData(sp_type string) *Data {
-	d, err := executeSPCommand(sp_type)
-	if err != nil {
-		panic(err)
-	}
-	return d
+func (d *DataType[T]) Items() []T {
+	return d.Item
 }
 
-func executeSPCommand(sp_type string) (*Data, error) {
-	cmd := exec.Command("system_profiler", sp_type, "-json")
+func NewData[T any](spType SPDataType) (*DataType[T], error) {
+	d, err := executeSPCommand[T](spType)
+	if err != nil {
+		return nil, err
+	}
+	return d, nil
+}
+
+func executeSPCommand[T any](spType SPDataType) (*DataType[T], error) {
+	cmd := exec.Command("system_profiler", string(spType), "-json")
 	output, err := cmd.Output()
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute command: %w", err)
 	}
-	var data Data
-	err = json.Unmarshal(output, &data.DataType) // unmarshal into DataType directly
+
+	// Define the structure based on the data you expect
+	var rawData map[string][]DataType[T]
+
+	err = json.Unmarshal(output, &rawData)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse JSON: %w", err)
 	}
 
-	return &data, nil
+	if items, exists := rawData[string(spType)]; exists && len(items) > 0 {
+		return &items[0], nil // Return the first DataType item
+	}
+
+	return nil, fmt.Errorf("no data found for %s", spType)
 }
+

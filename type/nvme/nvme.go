@@ -28,4 +28,16 @@ type DataTypeItem struct {
 	} `json:"volumes"`
 }
 
-var Data *common.Data = common.NewData(ThisDataType)
+var DataType *common.DataType[DataTypeItem]
+
+func init() {
+	// Initialize the DataType for SPNVMeDataType and handle errors.
+	data, err := common.NewData[DataTypeItem](common.SPNVMeDataType)
+	if err != nil {
+		// Handle error appropriately, e.g., log or panic.
+		fmt.Println("Error initializing data:", err)
+		return
+	}
+	DataType = data
+}
+
