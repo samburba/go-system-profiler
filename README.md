@@ -1,7 +1,7 @@
-# Go System Profiler
+# go-system-profiler - Go System Profiler
 
 ## Overview
-Go System Profiler is a Go library that retrieves and structures system information using macOS's `system_profiler` command. It provides a structured and JSON-compatible output to facilitate system data parsing and analysis.
+go-system-profiler is a Go library that retrieves and structures system information using macOS's `system_profiler` command. It provides a structured and JSON-compatible output to facilitate system data parsing and analysis.
 
 ## Features
 - Retrieves system information using `system_profiler`
@@ -76,56 +76,9 @@ Go System Profiler is a Go library that retrieves and structures system informat
 Each row corresponds to a type subdirectory.
 | Type                 | Implementation Status |
 |----------------------|----------------------|
-| `airport/`          | ✅ Implemented |
-| `applications/`     | ✅ Implemented |
 | `audio/`           | ✅ Implemented |
-| `bluetooth/`       | ✅ Implemented |
-| `camera/`          | ✅ Implemented |
-| `cardreader/`      | ✅ Implemented |
-| `configurationprofile/` | ✅ Implemented |
-| `developertools/`   | ✅ Implemented |
-| `diagnostics/`      | ✅ Implemented |
-| `disabledsoftware/` | ✅ Implemented |
-| `discburning/`      | ✅ Implemented |
-| `displays/`        | ✅ Implemented |
-| `ethernet/`        | ✅ Implemented |
-| `extensions/`      | ✅ Implemented |
-| `fibrechannel/`    | ✅ Implemented |
-| `firewall/`        | ✅ Implemented |
-| `firewire/`        | ✅ Implemented |
-| `fonts/`           | ✅ Implemented |
-| `frameworks/`      | ✅ Implemented |
-| `hardware/`        | ✅ Implemented |
-| `installhistory/`  | ✅ Implemented |
-| `international/`   | ✅ Implemented |
-| `legacysoftware/`  | ✅ Implemented |
-| `logs/`           | ✅ Implemented |
-| `managedclient/`  | ✅ Implemented |
-| `memory/`         | ✅ Implemented |
-| `network/`        | ✅ Implemented |
-| `networklocation/` | ✅ Implemented |
-| `networkvolume/`   | ✅ Implemented |
 | `nvme/`           | ✅ Implemented |
-| `parallelata/`    | ✅ Implemented |
-| `parallelscsi/`   | ✅ Implemented |
-| `pci/`            | ✅ Implemented |
-| `power/`          | ✅ Implemented |
-| `prefpane/`       | ✅ Implemented |
-| `printers/`       | ✅ Implemented |
-| `printerssoftware/` | ✅ Implemented |
-| `rawcamera/`      | ✅ Implemented |
-| `sas/`           | ✅ Implemented |
-| `secureelement/`  | ✅ Implemented |
-| `serialata/`      | ✅ Implemented |
-| `smartcards/`     | ✅ Implemented |
-| `software/`       | ✅ Implemented |
-| `spi/`           | ✅ Implemented |
-| `startupitem/`    | ✅ Implemented |
-| `storage/`       | ✅ Implemented |
-| `syncservices/`   | ✅ Implemented |
-| `thunderbolt/`    | ✅ Implemented |
-| `universalaccess/` | ✅ Implemented |
-| `usb/`           | ✅ Implemented |
+| *Other types*      | ❌ Not Implemented |
 
 ## Examples
 See [audio-example.go](examples/audio-example.go) for an example usage of the `audio` package.
