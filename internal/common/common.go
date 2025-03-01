@@ -19,10 +19,6 @@ func (d *DataType[T]) String() string {
 	return string(jsonData)
 }
 
-func (d *DataType[T]) Items() []T {
-	return d.Item
-}
-
 func NewData[T any](spType SPDataType) (*DataType[T], error) {
 	d, err := executeSPCommand[T](spType)
 	if err != nil {
