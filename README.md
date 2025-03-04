@@ -1,4 +1,4 @@
-# go-system-profiler - Go System Profiler
+# go-system-profiler
 
 ## Overview
 go-system-profiler is a Go library that retrieves and structures system information using macOS's `system_profiler` command. It provides a structured and JSON-compatible output to facilitate system data parsing and analysis.
