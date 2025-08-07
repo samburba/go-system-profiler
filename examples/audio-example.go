@@ -2,14 +2,17 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"github.com/samburba/go-system-profiler/v2/type/audio"
 )
 
 func main() {
+	// Get the audio data (initializes if needed)
+	data, err := audio.GetDataType()
+	if err != nil {
+		log.Fatalf("Failed to get audio data: %v", err)
+	}
 
-	// Create a DataType instance
-	data := audio.DataType
-	
 	// Print the data in a formatted JSON string
 	fmt.Printf("%s\n", data.String())
 
@@ -22,4 +25,3 @@ func main() {
 		fmt.Printf("Transport: %s\n", device.CoreaudioDeviceTransport)
 	}
 }
-

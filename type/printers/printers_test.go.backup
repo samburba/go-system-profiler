@@ -1,0 +1,60 @@
+package printers
+
+import (
+	"encoding/json"
+	"testing"
+)
+
+func TestPrintersDataType(t *testing.T) {
+	// Test that DataType is not nil
+	if DataType == nil {
+		t.Fatal("DataType should not be nil")
+	}
+
+	// Test JSON marshaling
+	jsonData, err := json.Marshal(DataType)
+	if err != nil {
+		t.Errorf("Failed to marshal DataType to JSON: %v", err)
+	}
+
+	// Test that JSON is not empty
+	if len(jsonData) == 0 {
+		t.Error("JSON data should not be empty")
+	}
+
+	// Test String() method
+	str := DataType.String()
+	if str == "" {
+		t.Error("String() method should not return empty string")
+	}
+
+	// Verify JSON structure
+	var parsed map[string]interface{}
+	err = json.Unmarshal(jsonData, &parsed)
+	if err != nil {
+		t.Errorf("Failed to parse JSON: %v", err)
+	}
+}
+
+func TestPrintersFields(t *testing.T) {
+	if DataType == nil {
+		t.Skip("No printers data found")
+	}
+
+	// Test that we can access printers fields
+	if len(DataType.Item) == 0 {
+		t.Log("No printers data found (this is normal if no printers are available)")
+		return
+	}
+
+	// Test that each printer item has basic fields
+	for i, item := range DataType.Item {
+		if item.CupsVersion == "" {
+			t.Errorf("Printer item %d should have a CUPS version", i)
+		}
+
+		if item.Status == "" {
+			t.Errorf("Printer item %d should have a status", i)
+		}
+	}
+}

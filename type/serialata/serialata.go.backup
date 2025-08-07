@@ -1,0 +1,35 @@
+
+var (
+	initOnce sync.Once
+	initErr  error
+)
+
+// Initialize ensures the DataType is initialized exactly once
+func Initialize() error {
+	initOnce.Do(func() {
+		data, err := common.NewData[DataTypeItem](common.SPSerialATADataType)
+		if err != nil {
+			initErr = fmt.Errorf("failed to initialize serialata data: %w", err)
+			return
+		}
+		DataType = data
+	})
+	return initErr
+}
+
+// GetDataType returns the DataType, initializing it if necessary
+func GetDataType() (*common.DataType[DataTypeItem], error) {
+	if err := Initialize(); err != nil {
+		return nil, err
+	}
+	return DataType, nil
+}
+
+// Legacy init function for backward compatibility
+func init() {
+	// Initialize on package import, but don't panic on error
+	if err := Initialize(); err != nil {
+		// Log error but don't fail - this maintains backward compatibility
+		fmt.Printf("Warning: serialata data initialization failed: %v\n", err)
+	}
+}

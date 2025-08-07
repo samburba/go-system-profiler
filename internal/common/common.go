@@ -7,7 +7,7 @@ import (
 )
 
 type DataType[T any] struct {
-	Item []T   `json:"_items"`
+	Item []T    `json:"_items"`
 	Name string `json:"_name"`
 }
 
@@ -48,4 +48,3 @@ func executeSPCommand[T any](spType SPDataType) (*DataType[T], error) {
 
 	return nil, fmt.Errorf("no data found for %s", spType)
 }
-

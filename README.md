@@ -5,10 +5,12 @@ go-system-profiler is a Go library that retrieves and structures system informat
 
 ## Features
 - Retrieves system information using `system_profiler`
-- Supports multiple data types (e.g., Audio, NVMe, USB, Network, etc.)
+- Supports multiple data types (e.g., Audio, Hardware, Software, Network, etc.)
 - Provides JSON-formatted structured output
 - Uses generics for flexible data handling
 - Modular design for easy expansion
+- Thread-safe initialization with `sync.Once`
+- Comprehensive test coverage for implemented types
 
 ## File Structure
 ```
@@ -74,25 +76,52 @@ go-system-profiler is a Go library that retrieves and structures system informat
 
 ## Implementation Status
 Each row corresponds to a type subdirectory.
-| Type                 | Implementation Status |
-|----------------------|----------------------|
-| `audio/`           | ✅ Implemented |
-| `nvme/`           | ✅ Implemented |
-| *Other types*      | ❌ Not Implemented |
+| Type                 | Implementation Status | Test Coverage |
+|----------------------|----------------------|---------------|
+| `audio/`           | ✅ Implemented | ✅ Tested |
+| `hardware/`        | ✅ Implemented | ✅ Tested |
+| `software/`        | ✅ Implemented | ✅ Tested |
+| `network/`         | ✅ Implemented | ✅ Tested |
+| `usb/`             | ✅ Implemented | ✅ Tested |
+| `bluetooth/`       | ✅ Implemented | ✅ Tested |
+| `applications/`    | ✅ Implemented | ⚠️ Basic |
+| `memory/`          | ✅ Implemented | ⚠️ Basic |
+| `power/`           | ✅ Implemented | ⚠️ Basic |
+| `storage/`         | ✅ Implemented | ⚠️ Basic |
+| `nvme/`            | ✅ Implemented | ⚠️ Basic |
+| `displays/`        | ✅ Implemented | ⚠️ Basic |
+| *Other types*      | ✅ Basic Structure | ❌ No Tests |
 
-## Examples
-See [audio-example.go](examples/audio-example.go) for an example usage of the `audio` package.
+## Data Structure Notes
+The library currently supports two types of system_profiler data structures:
 
-### Example Usage
+1. **Items-based structure** (like Audio): Data with `_items` array containing multiple devices/items
+2. **Flat structure** (like Hardware, Software): Single object with direct properties
+
+Types with items-based structure (like Audio) provide full access to their fields, while types with flat structure currently only expose the basic `Name` field due to the common package design.
+
+## Usage
+
+### Initialization Pattern
+All type packages use a thread-safe initialization pattern with `sync.Once`. You have two ways to access the data:
+
+#### Method 1: Using `Initialize()` and `DataType` directly
 ```go
 package main
 
 import (
 	"fmt"
+	"log"
 	"github.com/samburba/go-system-profiler/v2/type/audio"
 )
 
 func main() {
+	// Initialize the data (thread-safe, only happens once)
+	if err := audio.Initialize(); err != nil {
+		log.Fatalf("Failed to initialize audio data: %v", err)
+	}
+
+	// Access the data directly
 	data := audio.DataType
 	fmt.Printf("%s\n", data.String())
 
@@ -105,5 +134,138 @@ func main() {
 	}
 }
 ```
+
+#### Method 2: Using `GetDataType()` (recommended)
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+	"github.com/samburba/go-system-profiler/v2/type/audio"
+)
+
+func main() {
+	// Get the data type (initializes if needed)
+	data, err := audio.GetDataType()
+	if err != nil {
+		log.Fatalf("Failed to get audio data: %v", err)
+	}
+
+	fmt.Printf("%s\n", data.String())
+
+	for _, device := range data.Item {
+		fmt.Printf("Device Name: %s\n", device.Name)
+		fmt.Printf("Input Source: %s\n", device.CoreaudioInputSource)
+		fmt.Printf("Manufacturer: %s\n", device.CoreaudioDeviceManufacturer)
+		fmt.Printf("Sample Rate: %d\n", device.CoreaudioDeviceSrate)
+		fmt.Printf("Transport: %s\n", device.CoreaudioDeviceTransport)
+	}
+}
+```
+
+### Working with Different Data Types
+
+#### Audio Data (Items-based structure)
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+	"github.com/samburba/go-system-profiler/v2/type/audio"
+)
+
+func main() {
+	data, err := audio.GetDataType()
+	if err != nil {
+		log.Fatalf("Failed to get audio data: %v", err)
+	}
+
+	// Access individual audio devices
+	for _, device := range data.Item {
+		fmt.Printf("Audio Device: %s\n", device.Name)
+		fmt.Printf("  Input Source: %s\n", device.CoreaudioInputSource)
+		fmt.Printf("  Output Source: %s\n", device.CoreaudioOutputSource)
+		fmt.Printf("  Manufacturer: %s\n", device.CoreaudioDeviceManufacturer)
+		fmt.Printf("  Sample Rate: %d\n", device.CoreaudioDeviceSrate)
+	}
+}
+```
+
+#### Hardware Data (Flat structure)
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+	"github.com/samburba/go-system-profiler/v2/type/hardware"
+)
+
+func main() {
+	data, err := hardware.GetDataType()
+	if err != nil {
+		log.Fatalf("Failed to get hardware data: %v", err)
+	}
+
+	// Access hardware information
+	for _, item := range data.Item {
+		fmt.Printf("Hardware Component: %s\n", item.Name)
+		// Note: Additional fields need to be added to the DataTypeItem struct
+	}
+}
+```
+
+#### Network Data
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+	"github.com/samburba/go-system-profiler/v2/type/network"
+)
+
+func main() {
+	data, err := network.GetDataType()
+	if err != nil {
+		log.Fatalf("Failed to get network data: %v", err)
+	}
+
+	// Access network interfaces
+	for _, interface := range data.Item {
+		fmt.Printf("Network Interface: %s\n", interface.Name)
+		// Access interface-specific fields
+	}
+}
+```
+
+## Examples
+See [audio-example.go](examples/audio-example.go) for a complete example usage of the `audio` package.
+
+## Testing
+Run tests for all implemented types:
+```bash
+go test ./type/... -v
+```
+
+Run tests for a specific type:
+```bash
+go test ./type/audio/... -v
+```
+
+## Building
+Build the entire project:
+```bash
+go build ./...
+```
+
+## Requirements
+- macOS (uses `system_profiler` command)
+- Go 1.18+ (for generics support)
+
+## Thread Safety
+All type packages use `sync.Once` to ensure thread-safe initialization. The `Initialize()` function can be called multiple times safely, and the actual initialization only happens once. The `GetDataType()` function is the recommended way to access data as it handles initialization automatically.
 
 
