@@ -9,8 +9,9 @@ import (
 
 // DataTypeItem represents the structure of SPMemoryDataType.
 type DataTypeItem struct {
-	Name string `json:"_name"`
-	// TODO: Add specific fields based on system_profiler output
+	DimmManufacturer string `json:"dimm_manufacturer,omitempty"`
+	DimmType         string `json:"dimm_type,omitempty"`
+	SPMemoryDataType  string `json:"SPMemoryDataType,omitempty"`
 }
 
 // DataType holds the parsed system profiler data for SPMemoryDataType.

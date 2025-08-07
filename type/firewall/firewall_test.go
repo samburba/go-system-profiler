@@ -68,7 +68,7 @@ func TestFirewallFields(t *testing.T) {
 			t.Errorf("Firewall item %d should have a name", i)
 		}
 
-		if item.SpfirewallGlobalstate == "" {
+		if item.SpfirewallGlobalState == "" {
 			t.Errorf("Firewall item %d should have a global state", i)
 		}
 	}

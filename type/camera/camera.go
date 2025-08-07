@@ -9,8 +9,9 @@ import (
 
 // DataTypeItem represents the structure of SPCameraDataType.
 type DataTypeItem struct {
-	Name string `json:"_name"`
-	// TODO: Add specific fields based on system_profiler output
+	Name           string `json:"_name"`
+	SpcameraModelID string `json:"spcamera_model-id,omitempty"`
+	SpcameraUniqueID string `json:"spcamera_unique-id,omitempty"`
 }
 
 // DataType holds the parsed system profiler data for SPCameraDataType.

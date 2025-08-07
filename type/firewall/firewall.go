@@ -7,24 +7,13 @@ import (
 	"github.com/samburba/go-system-profiler/v2/internal/common"
 )
 
-// Applications represents firewall applications.
-type Applications struct {
-	ComAppleCupsd              string `json:"com.apple.cupsd,omitempty"`
-	ComAppleDtXcodeSelectToolShim string `json:"com.apple.dt.xcode_select.tool-shim,omitempty"`
-	ComAppleRemoted            string `json:"com.apple.remoted,omitempty"`
-	ComAppleRuby               string `json:"com.apple.ruby,omitempty"`
-	ComAppleSharingd           string `json:"com.apple.sharingd,omitempty"`
-	ComAppleSmbd               string `json:"com.apple.smbd,omitempty"`
-	ComAppleSshdKeygenWrapper  string `json:"com.apple.sshd-keygen-wrapper,omitempty"`
-}
-
 // DataTypeItem represents the structure of SPFirewallDataType.
 type DataTypeItem struct {
-	Name                      string       `json:"_name"`
-	SpfirewallApplications    Applications `json:"spfirewall_applications,omitempty"`
-	SpfirewallGlobalstate     string       `json:"spfirewall_globalstate,omitempty"`
-	SpfirewallLoggingenabled  string       `json:"spfirewall_loggingenabled,omitempty"`
-	SpfirewallStealthenabled  string       `json:"spfirewall_stealthenabled,omitempty"`
+	Name                      string            `json:"_name"`
+	SpfirewallApplications    map[string]string `json:"spfirewall_applications,omitempty"`
+	SpfirewallGlobalState     string            `json:"spfirewall_globalstate,omitempty"`
+	SpfirewallLoggingEnabled  string            `json:"spfirewall_loggingenabled,omitempty"`
+	SpfirewallStealthEnabled  string            `json:"spfirewall_stealthenabled,omitempty"`
 }
 
 // DataType holds the parsed system profiler data for SPFirewallDataType.
