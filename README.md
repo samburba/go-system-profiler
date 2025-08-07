@@ -268,4 +268,27 @@ go build ./...
 ## Thread Safety
 All type packages use `sync.Once` to ensure thread-safe initialization. The `Initialize()` function can be called multiple times safely, and the actual initialization only happens once. The `GetDataType()` function is the recommended way to access data as it handles initialization automatically.
 
+## CI/CD and Releases
+
+This project uses GitHub Actions for automated testing and releases:
+
+### Automated Releases
+- **Main Branch:** Pushes to `main` automatically create versioned releases (e.g., `v1.2.3`)
+- **Nightly Builds:** Daily automated releases with `-nightly.YYYYMMDD` suffix
+- **Pull Requests:** Comprehensive testing and code quality checks
+
+### Test Matrix
+- **macOS Latest:** Go 1.21, 1.22, 1.23
+- **macOS 13:** Go 1.22, 1.23  
+- **macOS 12:** Go 1.22, 1.23
+
+### Quality Checks
+- Unit tests for all type packages
+- Code formatting with `gofmt`
+- Static analysis with `go vet`
+- Race condition detection
+- Build verification
+
+For more details, see [`.github/workflows/README.md`](.github/workflows/README.md).
+
 

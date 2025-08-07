@@ -1,0 +1,153 @@
+name: Nightly Release
+
+on:
+  schedule:
+    # Run at midnight UTC every day
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  test-macos-latest:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        go-version: ['1.23', '1.22', '1.21']
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Go ${{ matrix.go-version }}
+      uses: actions/setup-go@v4
+      with:
+        go-version: ${{ matrix.go-version }}
+        cache: true
+        
+    - name: Install dependencies
+      run: go mod download
+      
+    - name: Run tests
+      run: go test -v ./type/...
+      
+    - name: Build
+      run: go build ./...
+      
+    - name: Run example
+      run: |
+        cd examples
+        go run audio-example.go
+
+  test-macos-13:
+    runs-on: macos-13
+    strategy:
+      matrix:
+        go-version: ['1.23', '1.22']
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Go ${{ matrix.go-version }}
+      uses: actions/setup-go@v4
+      with:
+        go-version: ${{ matrix.go-version }}
+        cache: true
+        
+    - name: Install dependencies
+      run: go mod download
+      
+    - name: Run tests
+      run: go test -v ./type/...
+      
+    - name: Build
+      run: go build ./...
+
+  test-macos-12:
+    runs-on: macos-12
+    strategy:
+      matrix:
+        go-version: ['1.23', '1.22']
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Go ${{ matrix.go-version }}
+      uses: actions/setup-go@v4
+      with:
+        go-version: ${{ matrix.go-version }}
+        cache: true
+        
+    - name: Install dependencies
+      run: go mod download
+      
+    - name: Run tests
+      run: go test -v ./type/...
+      
+    - name: Build
+      run: go build ./...
+
+  release:
+    needs: [test-macos-latest, test-macos-13, test-macos-12]
+    runs-on: macos-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.23'
+        
+    - name: Get nightly version
+      id: version
+      run: |
+        # Get current date for nightly version
+        DATE=$(date +%Y%m%d)
+        NIGHTLY_VERSION="v0.0.0-nightly.${DATE}"
+        
+        echo "Nightly version: $NIGHTLY_VERSION"
+        echo "version=$NIGHTLY_VERSION" >> $GITHUB_OUTPUT
+        echo "tag=$NIGHTLY_VERSION" >> $GITHUB_OUTPUT
+        
+    - name: Create Nightly Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.version.outputs.tag }}
+        release_name: Nightly Release ${{ steps.version.outputs.version }}
+        body: |
+          ## Nightly Release ${{ steps.version.outputs.version }}
+          
+          This is an automated nightly release built from the latest main branch.
+          
+          ### Test Matrix
+          - ✅ macOS Latest (Go 1.21, 1.22, 1.23)
+          - ✅ macOS 13 (Go 1.22, 1.23)
+          - ✅ macOS 12 (Go 1.22, 1.23)
+          
+          ### Features
+          - Thread-safe initialization with `sync.Once`
+          - New `Initialize()` and `GetDataType()` functions
+          - Improved error handling
+          - Comprehensive test coverage
+          
+          ### Usage
+          ```go
+          // Recommended way to access data
+          data, err := audio.GetDataType()
+          if err != nil {
+              log.Fatalf("Failed to get audio data: %v", err)
+          }
+          ```
+          
+          ### Note
+          This is a nightly build and may contain experimental features or breaking changes.
+          For production use, please use the latest stable release.
+        draft: false
+        prerelease: true

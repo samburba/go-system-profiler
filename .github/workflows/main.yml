@@ -1,0 +1,110 @@
+name: Main Branch CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.23'
+        cache: true
+        
+    - name: Install dependencies
+      run: go mod download
+      
+    - name: Run tests
+      run: go test -v ./type/...
+      
+    - name: Build
+      run: go build ./...
+      
+    - name: Run example
+      run: |
+        cd examples
+        go run audio-example.go
+
+  release:
+    needs: test
+    runs-on: macos-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.23'
+        
+    - name: Get version from git
+      id: version
+      run: |
+        # Get the latest tag or default to v0.0.0
+        LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+        echo "Latest tag: $LATEST_TAG"
+        
+        # Extract version numbers
+        VERSION=$(echo $LATEST_TAG | sed 's/v//')
+        MAJOR=$(echo $VERSION | cut -d. -f1)
+        MINOR=$(echo $VERSION | cut -d. -f2)
+        PATCH=$(echo $VERSION | cut -d. -f3)
+        
+        # Increment patch version
+        NEW_PATCH=$((PATCH + 1))
+        NEW_VERSION="v${MAJOR}.${MINOR}.${NEW_PATCH}"
+        
+        echo "New version: $NEW_VERSION"
+        echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+        echo "tag=$NEW_VERSION" >> $GITHUB_OUTPUT
+        
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.version.outputs.tag }}
+        release_name: Release ${{ steps.version.outputs.version }}
+        body: |
+          ## Changes in ${{ steps.version.outputs.version }}
+          
+          ### Features
+          - Thread-safe initialization with `sync.Once`
+          - New `Initialize()` and `GetDataType()` functions
+          - Improved error handling
+          
+          ### Breaking Changes
+          - Removed legacy `init()` functions
+          - Data is no longer automatically initialized on package import
+          
+          ### Usage
+          ```go
+          // Recommended way to access data
+          data, err := audio.GetDataType()
+          if err != nil {
+              log.Fatalf("Failed to get audio data: %v", err)
+          }
+          ```
+          
+          ### Testing
+          - All tests updated to use new initialization pattern
+          - Comprehensive test coverage for all type packages
+          
+          ### Documentation
+          - Updated README with usage examples
+          - Added thread safety documentation
+        draft: false
+        prerelease: false
