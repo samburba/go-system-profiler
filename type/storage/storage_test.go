@@ -1,11 +1,11 @@
-package hardware
+package storage
 
 import (
 	"encoding/json"
 	"testing"
 )
 
-func TestHardwareDataType(t *testing.T) {
+func TestStorageDataType(t *testing.T) {
 	// Initialize the DataType
 	if err := Initialize(); err != nil {
 		t.Fatalf("Failed to initialize DataType: %v", err)
@@ -46,31 +46,21 @@ func TestHardwareDataType(t *testing.T) {
 	}
 }
 
-func TestHardwareFields(t *testing.T) {
+func TestStorageFields(t *testing.T) {
 	// Initialize the DataType
 	if err := Initialize(); err != nil {
 		t.Skipf("Failed to initialize DataType: %v", err)
 	}
 
 	if DataType == nil {
-		t.Skip("No hardware data found")
+		t.Skip("No storage data found")
 	}
 
-	// Test that we can access hardware fields
+	// Test that we can access storage fields
 	if name, exists := DataType["_name"]; !exists || name == "" {
-		t.Error("Hardware should have a name")
+		t.Error("Storage should have a name")
 	}
 
-	// Test that we can access other hardware fields
-	if machineName, exists := DataType["machine_name"]; exists && machineName != "" {
-		t.Logf("Machine name: %v", machineName)
-	}
-
-	if chipType, exists := DataType["chip_type"]; exists && chipType != "" {
-		t.Logf("Chip type: %v", chipType)
-	}
-
-	if physicalMemory, exists := DataType["physical_memory"]; exists && physicalMemory != "" {
-		t.Logf("Physical memory: %v", physicalMemory)
-	}
+	// Log storage information
+	t.Logf("Storage data structure test passed")
 }

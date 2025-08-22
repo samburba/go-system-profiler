@@ -1,11 +1,11 @@
-package hardware
+package displays
 
 import (
 	"encoding/json"
 	"testing"
 )
 
-func TestHardwareDataType(t *testing.T) {
+func TestDisplaysDataType(t *testing.T) {
 	// Initialize the DataType
 	if err := Initialize(); err != nil {
 		t.Fatalf("Failed to initialize DataType: %v", err)
@@ -46,31 +46,31 @@ func TestHardwareDataType(t *testing.T) {
 	}
 }
 
-func TestHardwareFields(t *testing.T) {
+func TestDisplaysFields(t *testing.T) {
 	// Initialize the DataType
 	if err := Initialize(); err != nil {
 		t.Skipf("Failed to initialize DataType: %v", err)
 	}
 
 	if DataType == nil {
-		t.Skip("No hardware data found")
+		t.Skip("No displays data found")
 	}
 
-	// Test that we can access hardware fields
+	// Test that we can access displays fields
 	if name, exists := DataType["_name"]; !exists || name == "" {
-		t.Error("Hardware should have a name")
+		t.Error("Displays should have a name")
 	}
 
-	// Test that we can access other hardware fields
-	if machineName, exists := DataType["machine_name"]; exists && machineName != "" {
-		t.Logf("Machine name: %v", machineName)
+	// Test that we can access other displays fields
+	if vendor, exists := DataType["spdisplays_vendor"]; exists && vendor != "" {
+		t.Logf("Display vendor: %v", vendor)
 	}
 
-	if chipType, exists := DataType["chip_type"]; exists && chipType != "" {
-		t.Logf("Chip type: %v", chipType)
+	if model, exists := DataType["sppci_model"]; exists && model != "" {
+		t.Logf("Display model: %v", model)
 	}
 
-	if physicalMemory, exists := DataType["physical_memory"]; exists && physicalMemory != "" {
-		t.Logf("Physical memory: %v", physicalMemory)
+	if cores, exists := DataType["sppci_cores"]; exists && cores != "" {
+		t.Logf("Display cores: %v", cores)
 	}
 }

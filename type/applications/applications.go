@@ -19,7 +19,7 @@ type DataTypeItem struct {
 }
 
 // DataType holds the parsed system profiler data for SPApplicationsDataType.
-var DataType *common.DataType[DataTypeItem]
+var DataType common.DirectDataType[DataTypeItem]
 
 var (
 	initOnce sync.Once
@@ -29,7 +29,7 @@ var (
 // Initialize ensures the DataType is initialized exactly once
 func Initialize() error {
 	initOnce.Do(func() {
-		data, err := common.NewData[DataTypeItem](common.SPApplicationsDataType)
+		data, err := common.NewDirectData[DataTypeItem](common.SPApplicationsDataType)
 		if err != nil {
 			initErr = fmt.Errorf("failed to initialize applications data: %w", err)
 			return
@@ -40,7 +40,7 @@ func Initialize() error {
 }
 
 // GetDataType returns the DataType, initializing it if necessary
-func GetDataType() (*common.DataType[DataTypeItem], error) {
+func GetDataType() (common.DirectDataType[DataTypeItem], error) {
 	if err := Initialize(); err != nil {
 		return nil, err
 	}

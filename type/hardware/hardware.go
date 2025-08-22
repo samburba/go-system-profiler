@@ -25,7 +25,7 @@ type DataTypeItem struct {
 }
 
 // DataType holds the parsed system profiler data for SPHardwareDataType.
-var DataType *common.DataType[DataTypeItem]
+var DataType common.ObjectDataType[DataTypeItem]
 
 var (
 	initOnce sync.Once
@@ -35,7 +35,7 @@ var (
 // Initialize ensures the DataType is initialized exactly once
 func Initialize() error {
 	initOnce.Do(func() {
-		data, err := common.NewData[DataTypeItem](common.SPHardwareDataType)
+		data, err := common.NewObjectData[DataTypeItem](common.SPHardwareDataType)
 		if err != nil {
 			initErr = fmt.Errorf("failed to initialize hardware data: %w", err)
 			return
@@ -46,7 +46,7 @@ func Initialize() error {
 }
 
 // GetDataType returns the DataType, initializing it if necessary
-func GetDataType() (*common.DataType[DataTypeItem], error) {
+func GetDataType() (common.ObjectDataType[DataTypeItem], error) {
 	if err := Initialize(); err != nil {
 		return nil, err
 	}

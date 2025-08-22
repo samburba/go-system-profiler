@@ -9,13 +9,11 @@ import (
 
 // DataTypeItem represents the structure of SPMemoryDataType.
 type DataTypeItem struct {
-	DimmManufacturer string `json:"dimm_manufacturer,omitempty"`
-	DimmType         string `json:"dimm_type,omitempty"`
-	SPMemoryDataType  string `json:"SPMemoryDataType,omitempty"`
+	Name string `json:"_name"`
 }
 
 // DataType holds the parsed system profiler data for SPMemoryDataType.
-var DataType *common.DataType[DataTypeItem]
+var DataType common.ObjectDataType[DataTypeItem]
 
 var (
 	initOnce sync.Once
@@ -25,7 +23,7 @@ var (
 // Initialize ensures the DataType is initialized exactly once
 func Initialize() error {
 	initOnce.Do(func() {
-		data, err := common.NewData[DataTypeItem](common.SPMemoryDataType)
+		data, err := common.NewObjectData[DataTypeItem](common.SPMemoryDataType)
 		if err != nil {
 			initErr = fmt.Errorf("failed to initialize memory data: %w", err)
 			return
@@ -36,7 +34,7 @@ func Initialize() error {
 }
 
 // GetDataType returns the DataType, initializing it if necessary
-func GetDataType() (*common.DataType[DataTypeItem], error) {
+func GetDataType() (common.ObjectDataType[DataTypeItem], error) {
 	if err := Initialize(); err != nil {
 		return nil, err
 	}
