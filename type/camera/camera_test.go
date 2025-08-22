@@ -8,11 +8,12 @@ import (
 func TestCameraDataType(t *testing.T) {
 	// Initialize the DataType
 	if err := Initialize(); err != nil {
-		t.Skipf("Failed to initialize DataType: %v", err)
+		t.Skipf("Skipping: Failed to initialize DataType: %v", err)
 	}
 
+	// Test that DataType is not nil
 	if DataType == nil {
-		t.Skip("No camera data found")
+		t.Skip("Skipping: No camera data available")
 	}
 
 	// Test JSON marshaling
@@ -38,16 +39,21 @@ func TestCameraDataType(t *testing.T) {
 	if err != nil {
 		t.Errorf("Failed to parse JSON: %v", err)
 	}
+
+	// Check for required top-level fields
+	if _, exists := parsed["_name"]; !exists {
+		t.Error("JSON should contain '_name' field")
+	}
 }
 
 func TestCameraFields(t *testing.T) {
 	// Initialize the DataType
 	if err := Initialize(); err != nil {
-		t.Skipf("Failed to initialize DataType: %v", err)
+		t.Skipf("Skipping: Failed to initialize DataType: %v", err)
 	}
 
 	if DataType == nil {
-		t.Skip("No camera data found")
+		t.Skip("Skipping: No camera data found")
 	}
 
 	// Test that we can access camera fields
@@ -56,10 +62,12 @@ func TestCameraFields(t *testing.T) {
 		return
 	}
 
-	// Test that each camera has a name
-	for i, camera := range DataType.Item {
-		if camera.Name == "" {
-			t.Errorf("Camera %d should have a name", i)
+	// Test that each camera item has basic fields
+	for i, item := range DataType.Item {
+		if item.Name == "" {
+			t.Errorf("Camera item %d should have a name", i)
 		}
+
+		t.Logf("Camera device %d: %s", i, item.Name)
 	}
 }

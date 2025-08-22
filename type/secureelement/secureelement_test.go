@@ -8,11 +8,12 @@ import (
 func TestSecureElementDataType(t *testing.T) {
 	// Initialize the DataType
 	if err := Initialize(); err != nil {
-		t.Skipf("Failed to initialize DataType: %v", err)
+		t.Skipf("Skipping: Failed to initialize DataType: %v", err)
 	}
 
+	// Test that DataType is not nil
 	if DataType == nil {
-		t.Skip("No secure element data found")
+		t.Skip("Skipping: No secure element data available")
 	}
 
 	// Test JSON marshaling
@@ -38,16 +39,21 @@ func TestSecureElementDataType(t *testing.T) {
 	if err != nil {
 		t.Errorf("Failed to parse JSON: %v", err)
 	}
+
+	// Check for required top-level fields
+	if _, exists := parsed["_name"]; !exists {
+		t.Error("JSON should contain '_name' field")
+	}
 }
 
 func TestSecureElementFields(t *testing.T) {
 	// Initialize the DataType
 	if err := Initialize(); err != nil {
-		t.Skipf("Failed to initialize DataType: %v", err)
+		t.Skipf("Skipping: Failed to initialize DataType: %v", err)
 	}
 
 	if DataType == nil {
-		t.Skip("No secure element data found")
+		t.Skip("Skipping: No secure element data found")
 	}
 
 	// Test that we can access secure element fields
@@ -65,5 +71,7 @@ func TestSecureElementFields(t *testing.T) {
 		if item.SeID == "" {
 			t.Errorf("Secure element item %d should have an ID", i)
 		}
+
+		t.Logf("Secure element device %d: %s (ID: %s)", i, item.SeDevice, item.SeID)
 	}
 }

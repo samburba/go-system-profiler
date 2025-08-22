@@ -1,11 +1,11 @@
-package installhistory
+package serialata
 
 import (
 	"encoding/json"
 	"testing"
 )
 
-func TestInstallHistoryDataType(t *testing.T) {
+func TestSerialATADataType(t *testing.T) {
 	// Initialize the DataType
 	if err := Initialize(); err != nil {
 		t.Skipf("Skipping: Failed to initialize DataType: %v", err)
@@ -13,7 +13,7 @@ func TestInstallHistoryDataType(t *testing.T) {
 
 	// Test that DataType is not nil
 	if DataType == nil {
-		t.Skip("Skipping: No install history data available")
+		t.Skip("Skipping: No Serial ATA data available")
 	}
 
 	// Test JSON marshaling
@@ -46,28 +46,28 @@ func TestInstallHistoryDataType(t *testing.T) {
 	}
 }
 
-func TestInstallHistoryFields(t *testing.T) {
+func TestSerialATAFields(t *testing.T) {
 	// Initialize the DataType
 	if err := Initialize(); err != nil {
 		t.Skipf("Skipping: Failed to initialize DataType: %v", err)
 	}
 
 	if DataType == nil {
-		t.Skip("Skipping: No install history data found")
+		t.Skip("Skipping: No Serial ATA data found")
 	}
 
-	// Test that we can access install history fields
+	// Test that we can access Serial ATA fields
 	if len(DataType.Item) == 0 {
-		t.Log("No install history data found (this is normal if no install history is available)")
+		t.Log("No Serial ATA data found (this is normal if no Serial ATA devices are available)")
 		return
 	}
 
-	// Test that each install history item has basic fields
+	// Test that each Serial ATA item has basic fields
 	for i, item := range DataType.Item {
 		if item.Name == "" {
-			t.Errorf("Install history item %d should have a name", i)
+			t.Errorf("Serial ATA item %d should have a name", i)
 		}
 
-		t.Logf("Install history item %d: %s", i, item.Name)
+		t.Logf("Serial ATA device %d: %s", i, item.Name)
 	}
 }

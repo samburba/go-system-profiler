@@ -1,11 +1,11 @@
-package installhistory
+package disabledsoftware
 
 import (
 	"encoding/json"
 	"testing"
 )
 
-func TestInstallHistoryDataType(t *testing.T) {
+func TestDisabledSoftwareDataType(t *testing.T) {
 	// Initialize the DataType
 	if err := Initialize(); err != nil {
 		t.Skipf("Skipping: Failed to initialize DataType: %v", err)
@@ -13,7 +13,7 @@ func TestInstallHistoryDataType(t *testing.T) {
 
 	// Test that DataType is not nil
 	if DataType == nil {
-		t.Skip("Skipping: No install history data available")
+		t.Skip("Skipping: No disabled software data available")
 	}
 
 	// Test JSON marshaling
@@ -46,28 +46,28 @@ func TestInstallHistoryDataType(t *testing.T) {
 	}
 }
 
-func TestInstallHistoryFields(t *testing.T) {
+func TestDisabledSoftwareFields(t *testing.T) {
 	// Initialize the DataType
 	if err := Initialize(); err != nil {
 		t.Skipf("Skipping: Failed to initialize DataType: %v", err)
 	}
 
 	if DataType == nil {
-		t.Skip("Skipping: No install history data found")
+		t.Skip("Skipping: No disabled software data found")
 	}
 
-	// Test that we can access install history fields
+	// Test that we can access disabled software fields
 	if len(DataType.Item) == 0 {
-		t.Log("No install history data found (this is normal if no install history is available)")
+		t.Log("No disabled software data found (this is normal if no disabled software is available)")
 		return
 	}
 
-	// Test that each install history item has basic fields
+	// Test that each disabled software item has basic fields
 	for i, item := range DataType.Item {
 		if item.Name == "" {
-			t.Errorf("Install history item %d should have a name", i)
+			t.Errorf("Disabled software item %d should have a name", i)
 		}
 
-		t.Logf("Install history item %d: %s", i, item.Name)
+		t.Logf("Disabled software %d: %s", i, item.Name)
 	}
 }
