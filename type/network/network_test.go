@@ -69,7 +69,7 @@ func TestNetworkFields(t *testing.T) {
 	// Note: The current implementation doesn't expose network fields directly
 	// because the common package expects _items structure, but network has flat structure
 	// This test just verifies the basic functionality works
-	
+
 	// Test that we can access the name
 	if DataType.Name == "" {
 		t.Error("Name should not be empty")

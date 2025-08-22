@@ -4,6 +4,7 @@ package network
 import (
 	"fmt"
 	"sync"
+
 	"github.com/samburba/go-system-profiler/v2/internal/common"
 )
 

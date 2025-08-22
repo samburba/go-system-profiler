@@ -4,6 +4,7 @@ package airport
 import (
 	"fmt"
 	"sync"
+
 	"github.com/samburba/go-system-profiler/v2/internal/common"
 )
 
@@ -18,24 +19,24 @@ type WirelessNetwork struct {
 
 // AirportInterface represents an airport interface.
 type AirportInterface struct {
-	Name                                    string            `json:"_name"`
+	Name                                       string            `json:"_name"`
 	SpairportAirportOtherLocalWirelessNetworks []WirelessNetwork `json:"spairport_airport_other_local_wireless_networks,omitempty"`
 }
 
 // SoftwareInformation represents airport software information.
 type SoftwareInformation struct {
-	SpairportCorewlanVersion      string `json:"spairport_corewlan_version,omitempty"`
-	SpairportCorewlankitVersion   string `json:"spairport_corewlankit_version,omitempty"`
-	SpairportDiagnosticsVersion   string `json:"spairport_diagnostics_version,omitempty"`
-	SpairportExtraVersion         string `json:"spairport_extra_version,omitempty"`
-	SpairportFamilyVersion        string `json:"spairport_family_version,omitempty"`
-	SpairportProfilerVersion      string `json:"spairport_profiler_version,omitempty"`
-	SpairportUtilityVersion       string `json:"spairport_utility_version,omitempty"`
+	SpairportCorewlanVersion    string `json:"spairport_corewlan_version,omitempty"`
+	SpairportCorewlankitVersion string `json:"spairport_corewlankit_version,omitempty"`
+	SpairportDiagnosticsVersion string `json:"spairport_diagnostics_version,omitempty"`
+	SpairportExtraVersion       string `json:"spairport_extra_version,omitempty"`
+	SpairportFamilyVersion      string `json:"spairport_family_version,omitempty"`
+	SpairportProfilerVersion    string `json:"spairport_profiler_version,omitempty"`
+	SpairportUtilityVersion     string `json:"spairport_utility_version,omitempty"`
 }
 
 // DataTypeItem represents the structure of SPAirPortDataType.
 type DataTypeItem struct {
-	SpairportAirportInterfaces []AirportInterface `json:"spairport_airport_interfaces,omitempty"`
+	SpairportAirportInterfaces   []AirportInterface  `json:"spairport_airport_interfaces,omitempty"`
 	SpairportSoftwareInformation SoftwareInformation `json:"spairport_software_information,omitempty"`
 }
 
@@ -67,4 +68,3 @@ func GetDataType() (*common.DataType[DataTypeItem], error) {
 	}
 	return DataType, nil
 }
-

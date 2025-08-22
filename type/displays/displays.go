@@ -4,19 +4,20 @@ package displays
 import (
 	"fmt"
 	"sync"
+
 	"github.com/samburba/go-system-profiler/v2/internal/common"
 )
 
 // DataTypeItem represents the structure of SPDisplaysDataType.
 type DataTypeItem struct {
-	Name                    string `json:"_name"`
+	Name                          string `json:"_name"`
 	SpdisplaysMtlgpufamilysupport string `json:"spdisplays_mtlgpufamilysupport,omitempty"`
-	SpdisplaysNdrvs        string `json:"spdisplays_ndrvs,omitempty"`
-	SpdisplaysVendor       string `json:"spdisplays_vendor,omitempty"`
-	SppciBus               string `json:"sppci_bus,omitempty"`
-	SppciCores             string `json:"sppci_cores,omitempty"`
-	SppciDeviceType        string `json:"sppci_device_type,omitempty"`
-	SppciModel             string `json:"sppci_model,omitempty"`
+	SpdisplaysNdrvs               string `json:"spdisplays_ndrvs,omitempty"`
+	SpdisplaysVendor              string `json:"spdisplays_vendor,omitempty"`
+	SppciBus                      string `json:"sppci_bus,omitempty"`
+	SppciCores                    string `json:"sppci_cores,omitempty"`
+	SppciDeviceType               string `json:"sppci_device_type,omitempty"`
+	SppciModel                    string `json:"sppci_model,omitempty"`
 }
 
 // DataType holds the parsed system profiler data for SPDisplaysDataType.
@@ -47,4 +48,3 @@ func GetDataType() (common.ObjectDataType[DataTypeItem], error) {
 	}
 	return DataType, nil
 }
-
