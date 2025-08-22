@@ -4,6 +4,7 @@ package thunderbolt
 import (
 	"fmt"
 	"sync"
+
 	"github.com/samburba/go-system-profiler/v2/internal/common"
 )
 
@@ -17,13 +18,13 @@ type ReceptacleTag struct {
 
 // DataTypeItem represents the structure of SPThunderboltDataType.
 type DataTypeItem struct {
-	Name              string        `json:"_name"`
-	DeviceNameKey     string        `json:"device_name_key,omitempty"`
-	DomainUUIDKey     string        `json:"domain_uuid_key,omitempty"`
-	Receptacle1Tag    ReceptacleTag `json:"receptacle_1_tag,omitempty"`
-	RouteStringKey    string        `json:"route_string_key,omitempty"`
-	SwitchUIDKey      string        `json:"switch_uid_key,omitempty"`
-	VendorNameKey     string        `json:"vendor_name_key,omitempty"`
+	Name           string        `json:"_name"`
+	DeviceNameKey  string        `json:"device_name_key,omitempty"`
+	DomainUUIDKey  string        `json:"domain_uuid_key,omitempty"`
+	Receptacle1Tag ReceptacleTag `json:"receptacle_1_tag,omitempty"`
+	RouteStringKey string        `json:"route_string_key,omitempty"`
+	SwitchUIDKey   string        `json:"switch_uid_key,omitempty"`
+	VendorNameKey  string        `json:"vendor_name_key,omitempty"`
 }
 
 // DataType holds the parsed system profiler data for SPThunderboltDataType.
@@ -54,4 +55,3 @@ func GetDataType() (*common.DataType[DataTypeItem], error) {
 	}
 	return DataType, nil
 }
-

@@ -4,24 +4,25 @@ package fonts
 import (
 	"fmt"
 	"sync"
+
 	"github.com/samburba/go-system-profiler/v2/internal/common"
 )
 
 // Typeface represents a font typeface.
 type Typeface struct {
-	Name           string `json:"_name"`
-	CopyProtected  string `json:"copy_protected,omitempty"`
-	Copyright      string `json:"copyright,omitempty"`
-	Designer       string `json:"designer,omitempty"`
-	Duplicate      string `json:"duplicate,omitempty"`
-	Embeddable     string `json:"embeddable,omitempty"`
-	Enabled        string `json:"enabled,omitempty"`
-	Family         string `json:"family,omitempty"`
-	Fullname       string `json:"fullname,omitempty"`
-	Outline        string `json:"outline,omitempty"`
-	Style          string `json:"style,omitempty"`
-	Unique         string `json:"unique,omitempty"`
-	Valid          string `json:"valid,omitempty"`
+	Name          string `json:"_name"`
+	CopyProtected string `json:"copy_protected,omitempty"`
+	Copyright     string `json:"copyright,omitempty"`
+	Designer      string `json:"designer,omitempty"`
+	Duplicate     string `json:"duplicate,omitempty"`
+	Embeddable    string `json:"embeddable,omitempty"`
+	Enabled       string `json:"enabled,omitempty"`
+	Family        string `json:"family,omitempty"`
+	Fullname      string `json:"fullname,omitempty"`
+	Outline       string `json:"outline,omitempty"`
+	Style         string `json:"style,omitempty"`
+	Unique        string `json:"unique,omitempty"`
+	Valid         string `json:"valid,omitempty"`
 }
 
 // DataTypeItem represents the structure of SPFontsDataType.

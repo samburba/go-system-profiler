@@ -4,13 +4,14 @@ package camera
 import (
 	"fmt"
 	"sync"
+
 	"github.com/samburba/go-system-profiler/v2/internal/common"
 )
 
 // DataTypeItem represents the structure of SPCameraDataType.
 type DataTypeItem struct {
-	Name           string `json:"_name"`
-	SpcameraModelID string `json:"spcamera_model-id,omitempty"`
+	Name             string `json:"_name"`
+	SpcameraModelID  string `json:"spcamera_model-id,omitempty"`
 	SpcameraUniqueID string `json:"spcamera_unique-id,omitempty"`
 }
 
@@ -42,4 +43,3 @@ func GetDataType() (*common.DataType[DataTypeItem], error) {
 	}
 	return DataType, nil
 }
-

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+
 	"github.com/samburba/go-system-profiler/v2/type/audio"
 )
 

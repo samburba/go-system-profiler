@@ -4,16 +4,17 @@ package firewall
 import (
 	"fmt"
 	"sync"
+
 	"github.com/samburba/go-system-profiler/v2/internal/common"
 )
 
 // DataTypeItem represents the structure of SPFirewallDataType.
 type DataTypeItem struct {
-	Name                      string            `json:"_name"`
-	SpfirewallApplications    map[string]string `json:"spfirewall_applications,omitempty"`
-	SpfirewallGlobalState     string            `json:"spfirewall_globalstate,omitempty"`
-	SpfirewallLoggingEnabled  string            `json:"spfirewall_loggingenabled,omitempty"`
-	SpfirewallStealthEnabled  string            `json:"spfirewall_stealthenabled,omitempty"`
+	Name                     string            `json:"_name"`
+	SpfirewallApplications   map[string]string `json:"spfirewall_applications,omitempty"`
+	SpfirewallGlobalState    string            `json:"spfirewall_globalstate,omitempty"`
+	SpfirewallLoggingEnabled string            `json:"spfirewall_loggingenabled,omitempty"`
+	SpfirewallStealthEnabled string            `json:"spfirewall_stealthenabled,omitempty"`
 }
 
 // DataType holds the parsed system profiler data for SPFirewallDataType.

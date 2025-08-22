@@ -4,21 +4,22 @@ package software
 import (
 	"fmt"
 	"sync"
+
 	"github.com/samburba/go-system-profiler/v2/internal/common"
 )
 
 // DataTypeItem represents the structure of SPSoftwareDataType.
 type DataTypeItem struct {
-	Name             string `json:"_name"`
-	BootMode         string `json:"boot_mode,omitempty"`
-	BootVolume       string `json:"boot_volume,omitempty"`
-	KernelVersion    string `json:"kernel_version,omitempty"`
-	LocalHostName    string `json:"local_host_name,omitempty"`
-	OsVersion        string `json:"os_version,omitempty"`
-	SecureVM         string `json:"secure_vm,omitempty"`
-	SystemIntegrity  string `json:"system_integrity,omitempty"`
-	Uptime           string `json:"uptime,omitempty"`
-	UserName         string `json:"user_name,omitempty"`
+	Name            string `json:"_name"`
+	BootMode        string `json:"boot_mode,omitempty"`
+	BootVolume      string `json:"boot_volume,omitempty"`
+	KernelVersion   string `json:"kernel_version,omitempty"`
+	LocalHostName   string `json:"local_host_name,omitempty"`
+	OsVersion       string `json:"os_version,omitempty"`
+	SecureVM        string `json:"secure_vm,omitempty"`
+	SystemIntegrity string `json:"system_integrity,omitempty"`
+	Uptime          string `json:"uptime,omitempty"`
+	UserName        string `json:"user_name,omitempty"`
 }
 
 // DataType holds the parsed system profiler data for SPSoftwareDataType.

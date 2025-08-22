@@ -86,6 +86,7 @@ jobs:
           - Thread-safe initialization with `sync.Once`
           - New `Initialize()` and `GetDataType()` functions
           - Improved error handling
+          - Support for all system_profiler data structures
           
           ### Breaking Changes
           - Removed legacy `init()` functions

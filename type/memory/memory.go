@@ -4,6 +4,7 @@ package memory
 import (
 	"fmt"
 	"sync"
+
 	"github.com/samburba/go-system-profiler/v2/internal/common"
 )
 
@@ -40,4 +41,3 @@ func GetDataType() (common.ObjectDataType[DataTypeItem], error) {
 	}
 	return DataType, nil
 }
-

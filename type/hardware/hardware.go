@@ -4,24 +4,25 @@ package hardware
 import (
 	"fmt"
 	"sync"
+
 	"github.com/samburba/go-system-profiler/v2/internal/common"
 )
 
 // DataTypeItem represents the structure of SPHardwareDataType.
 type DataTypeItem struct {
-	Name                  string `json:"_name"`
-	ActivationLockStatus  string `json:"activation_lock_status,omitempty"`
-	BootRomVersion        string `json:"boot_rom_version,omitempty"`
-	ChipType              string `json:"chip_type,omitempty"`
-	MachineModel          string `json:"machine_model,omitempty"`
-	MachineName           string `json:"machine_name,omitempty"`
-	ModelNumber           string `json:"model_number,omitempty"`
-	NumberProcessors      string `json:"number_processors,omitempty"`
-	OsLoaderVersion       string `json:"os_loader_version,omitempty"`
-	PhysicalMemory        string `json:"physical_memory,omitempty"`
-	PlatformUUID          string `json:"platform_UUID,omitempty"`
-	ProvisioningUDID      string `json:"provisioning_UDID,omitempty"`
-	SerialNumber          string `json:"serial_number,omitempty"`
+	Name                 string `json:"_name"`
+	ActivationLockStatus string `json:"activation_lock_status,omitempty"`
+	BootRomVersion       string `json:"boot_rom_version,omitempty"`
+	ChipType             string `json:"chip_type,omitempty"`
+	MachineModel         string `json:"machine_model,omitempty"`
+	MachineName          string `json:"machine_name,omitempty"`
+	ModelNumber          string `json:"model_number,omitempty"`
+	NumberProcessors     string `json:"number_processors,omitempty"`
+	OsLoaderVersion      string `json:"os_loader_version,omitempty"`
+	PhysicalMemory       string `json:"physical_memory,omitempty"`
+	PlatformUUID         string `json:"platform_UUID,omitempty"`
+	ProvisioningUDID     string `json:"provisioning_UDID,omitempty"`
+	SerialNumber         string `json:"serial_number,omitempty"`
 }
 
 // DataType holds the parsed system profiler data for SPHardwareDataType.
