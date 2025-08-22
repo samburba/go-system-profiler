@@ -1,4 +1,0 @@
-# github.com/samburba/go-system-profiler/v2/type/firewall [github.com/samburba/go-system-profiler/v2/type/firewall.test]
-firewall/firewall_test.go:71:11: item.SpfirewallGlobalstate undefined (type DataTypeItem has no field or method SpfirewallGlobalstate, but does have field SpfirewallGlobalState)
-# github.com/samburba/go-system-profiler/v2/type/firewall [github.com/samburba/go-system-profiler/v2/type/firewall.test]
-firewall/firewall_test.go:71:11: item.SpfirewallGlobalstate undefined (type DataTypeItem has no field or method SpfirewallGlobalstate, but does have field SpfirewallGlobalState)

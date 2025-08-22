@@ -1,11 +1,11 @@
-package hardware
+package applications
 
 import (
 	"encoding/json"
 	"testing"
 )
 
-func TestHardwareDataType(t *testing.T) {
+func TestApplicationsDataType(t *testing.T) {
 	// Initialize the DataType
 	if err := Initialize(); err != nil {
 		t.Fatalf("Failed to initialize DataType: %v", err)
@@ -34,43 +34,35 @@ func TestHardwareDataType(t *testing.T) {
 	}
 
 	// Verify JSON structure
-	var parsed map[string]interface{}
+	var parsed []map[string]interface{}
 	err = json.Unmarshal(jsonData, &parsed)
 	if err != nil {
 		t.Errorf("Failed to parse JSON: %v", err)
 	}
-
-	// Check for required top-level fields
-	if _, exists := parsed["_name"]; !exists {
-		t.Error("JSON should contain '_name' field")
-	}
 }
 
-func TestHardwareFields(t *testing.T) {
+func TestApplicationsFields(t *testing.T) {
 	// Initialize the DataType
 	if err := Initialize(); err != nil {
 		t.Skipf("Failed to initialize DataType: %v", err)
 	}
 
 	if DataType == nil {
-		t.Skip("No hardware data found")
+		t.Skip("No applications data found")
 	}
 
-	// Test that we can access hardware fields
-	if name, exists := DataType["_name"]; !exists || name == "" {
-		t.Error("Hardware should have a name")
+	// Test that we can access applications fields
+	if len(DataType) == 0 {
+		t.Log("No applications data found (this is normal if no applications are available)")
+		return
 	}
 
-	// Test that we can access other hardware fields
-	if machineName, exists := DataType["machine_name"]; exists && machineName != "" {
-		t.Logf("Machine name: %v", machineName)
-	}
+	// Test that each applications item has basic fields
+	for i, item := range DataType {
+		if item.Name == "" {
+			t.Errorf("Applications item %d should have a name", i)
+		}
 
-	if chipType, exists := DataType["chip_type"]; exists && chipType != "" {
-		t.Logf("Chip type: %v", chipType)
-	}
-
-	if physicalMemory, exists := DataType["physical_memory"]; exists && physicalMemory != "" {
-		t.Logf("Physical memory: %v", physicalMemory)
+		t.Logf("Applications item %d: %s", i, item.Name)
 	}
 }
